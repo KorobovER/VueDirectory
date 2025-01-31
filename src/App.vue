@@ -2,17 +2,20 @@
   <div id="app">
     <h1>Справочник организаций</h1>
     <input v-model="searchQuery" placeholder="Найти по ФИО" />
+    <button @click="showModal = true">Добавить</button>
     <Table :data="paginatedData" @sort-column="sortColumn" />
     <Pagination :total-pages="totalPages" :current-page="currentPage" @page-changed="changePage" />
+    <Modal v-if="showModal" @close="showModal = false" @add-row="addRow" />
   </div>
 </template>
 
 <script>
 import Table from './components/Table.vue';
 import Pagination from './components/Pagination.vue';
+import Modal from './components/Modal.vue';
 
 export default {
-  components: { Table, Pagination },
+  components: { Table, Pagination, Modal },
   data() {
     return {
       organizations: [
@@ -26,6 +29,7 @@ export default {
       sortOrder: 'asc',
       currentPage: 1,
       itemsPerPage: 3,
+      showModal: false,
     };
   },
   computed: {
@@ -63,6 +67,10 @@ export default {
     },
     changePage(page) {
       this.currentPage = page;
+    },
+    addRow(newOrg) {
+      this.organizations.push(newOrg);
+      this.showModal = false;
     },
   },
 };
