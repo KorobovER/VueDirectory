@@ -2,8 +2,8 @@
     <table border="1">
         <thead>
             <tr>
-                <th>Название</th>
-                <th>ФИО директора</th>
+                <th @click="$emit('sort-column', 'name')">Название &uarr;&darr;</th>
+                <th @click="$emit('sort-column', 'director')">ФИО директора &uarr;&darr;</th>
                 <th>Телефон</th>
             </tr>
         </thead>
@@ -22,5 +22,6 @@ export default {
     props: {
         data: Array,
     },
+    emits: ['sort-column'],
 };
 </script>
