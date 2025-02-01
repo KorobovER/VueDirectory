@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-    <h1>Список организаций</h1>
-    <ul>
-      <li v-for="(org, index) in organizations" :key="index">
-        {{ org.name }} - {{ org.director }} - {{ org.phone }}
-      </li>
-    </ul>
+    <h1>Справочник организаций</h1>
+    <Table :data="organizations" />
   </div>
 </template>
 
 <script>
+import Table from './components/Table.vue';
+
 export default {
+  components: { Table },
   data() {
     return {
       organizations: [
