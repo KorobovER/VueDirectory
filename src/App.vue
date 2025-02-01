@@ -2,35 +2,46 @@
   <div id="app">
     <h1>Справочник организаций</h1>
     <input v-model="searchQuery" placeholder="Найти по ФИО" />
-    <Table :data="filteredData" @sort-column="sortColumn" />
+    <Table :data="paginatedData" @sort-column="sortColumn" />
+    <Pagination :total-pages="totalPages" :current-page="currentPage" @page-changed="changePage" />
   </div>
 </template>
 
 <script>
 import Table from './components/Table.vue';
+import Pagination from './components/Pagination.vue';
 
 export default {
-  components: { Table },
+  components: { Table, Pagination },
   data() {
     return {
       organizations: [
         { name: 'Организация 1', director: 'Иванов Иван Иванович', phone: '123-456' },
         { name: 'Организация 2', director: 'Петров Петр Петрович', phone: '789-012' },
+        { name: 'Организация 2', director: 'Петров Петр Петрович', phone: '789-012' },
+        { name: 'Организация 2', director: 'Петров Петр Петрович', phone: '789-012' },
       ],
       searchQuery: '',
       sortBy: 'name',
       sortOrder: 'asc',
+      currentPage: 1,
+      itemsPerPage: 3,
     };
   },
   computed: {
     filteredData() {
-      // Фильтрация данных
       let data = this.organizations.filter((org) =>
         org.director.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
-
-      // Сортировка данных
       return this.sortData(data, this.sortBy, this.sortOrder);
+    },
+    paginatedData() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.filteredData.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.filteredData.length / this.itemsPerPage);
     },
   },
   methods: {
@@ -50,6 +61,16 @@ export default {
         return valueA.localeCompare(valueB) * modifier;
       });
     },
+    changePage(page) {
+      this.currentPage = page;
+    },
   },
 };
 </script>
+
+<style>
+#app {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+</style>

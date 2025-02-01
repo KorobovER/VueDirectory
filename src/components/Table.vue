@@ -1,5 +1,5 @@
 <template>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th @click="$emit('sort-column', 'name')">Название &uarr;&darr;</th>
@@ -25,3 +25,22 @@ export default {
     emits: ['sort-column'],
 };
 </script>
+
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid rgb(94, 91, 91);
+}
+
+th {
+    background-color: white;
+    cursor: pointer;
+}
+</style>
